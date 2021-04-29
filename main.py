@@ -22,12 +22,16 @@ img_dir = os.path.join(os.path.dirname(__file__), 'img')
 
 background = pygame.image.load(os.path.join(img_dir, 'starfield.png')).convert()
 background_rect = background.get_rect()
+player_img = pygame.image.load(os.path.join(img_dir, "playerShip1_orange.png")).convert()
+meteor_img = pygame.image.load(os.path.join(img_dir, "meteorBrown_med1.png")).convert()
+bullet_img = pygame.image.load(os.path.join(img_dir, "laserRed16.png")).convert()
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((50, 40))
-        self.image.fill(GREEN)
+        self.image = pygame.transform.scale(player_img, (50, 38))
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
@@ -55,8 +59,8 @@ class Player(pygame.sprite.Sprite):
 class Mob(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface((30, 40))
-        self.image.fill(RED)
+        self.image = pygame.transform.scale(meteor_img, (20, 20))
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         self.rect.x = random.randrange(WIDTH - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
@@ -128,6 +132,7 @@ while running:
         mobs.add(m)
 
     screen.fill(BLACK)
+    screen.blit(background, background_rect)
     all_sprites.draw(screen)
     pygame.display.flip()
 
